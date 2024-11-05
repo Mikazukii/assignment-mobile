@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({super.key});
-  final String npm = '2406394881'; // NPM
+  final String clientId = '2406394881'; // Client Id
   final String name = 'Naïm Baziz'; // Name
-  final String className = 'PBP KKI'; // Class
+  final String userType = 'Premium'; // User Type
   final List<ItemHomepage> items = [
-    ItemHomepage("View Mood", Icons.mood),
-    ItemHomepage("Add Mood", Icons.add),
-    ItemHomepage("Logout", Icons.logout),
+    ItemHomepage("View Product", Icons.mood, Colors.blue),
+    ItemHomepage("Add Product", Icons.add, Colors.white),
+    ItemHomepage("Logout", Icons.logout, Colors.red),
   ];
 
   @override
@@ -19,9 +19,9 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         // The title of the application "Mental Health Tracker" with white text and bold font.
         title: const Text(
-          'Mental Health Tracker',
+          'Ecommerce',
           style: TextStyle(
-            color: Colors.white,
+            color: Color.fromARGB(255, 255, 255, 255),
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -39,9 +39,9 @@ class MyHomePage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                InfoCard(title: 'NPM', content: npm),
+                InfoCard(title: 'Client ID', content: clientId),
                 InfoCard(title: 'Name', content: name),
-                InfoCard(title: 'Class', content: className),
+                InfoCard(title: 'User Type', content: userType),
               ],
             ),
 
@@ -58,7 +58,7 @@ class MyHomePage extends StatelessWidget {
                   const Padding(
                     padding: EdgeInsets.only(top: 16.0),
                     child: Text(
-                      'Welcome to Mental Health Tracker',
+                      'Welcome to Ecommerce Mobile',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18.0,
@@ -104,6 +104,7 @@ class InfoCard extends StatelessWidget {
     return Card(
       // Create a card box with a shadow.
       elevation: 2.0,
+      color: Colors.indigo,
       child: Container(
         // Set the size and spacing within the card.
         width: MediaQuery.of(context).size.width /
@@ -114,7 +115,8 @@ class InfoCard extends StatelessWidget {
           children: [
             Text(
               title,
-              style: const TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold, color: Colors.white),
             ),
             const SizedBox(height: 8.0),
             Text(content),
@@ -128,8 +130,9 @@ class InfoCard extends StatelessWidget {
 class ItemHomepage {
   final String name;
   final IconData icon;
+  final Color color;
 
-  ItemHomepage(this.name, this.icon);
+  ItemHomepage(this.name, this.icon, this.color);
 }
 
 class ItemCard extends StatelessWidget {
@@ -143,7 +146,7 @@ class ItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       // Specify the background color of the application theme.
-      color: Theme.of(context).colorScheme.secondary,
+      color: item.color,
       // Round the card border.
       borderRadius: BorderRadius.circular(12),
 
@@ -166,14 +169,19 @@ class ItemCard extends StatelessWidget {
               children: [
                 Icon(
                   item.icon,
-                  color: Colors.white,
+                  color:
+                      item.name == "Add Product" ? Colors.black : Colors.white,
                   size: 30.0,
                 ),
                 const Padding(padding: EdgeInsets.all(3)),
                 Text(
                   item.name,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white),
+                  style: TextStyle(
+                    color: item.name == "Add Product"
+                        ? Colors.black
+                        : Colors.white,
+                  ),
                 ),
               ],
             ),
