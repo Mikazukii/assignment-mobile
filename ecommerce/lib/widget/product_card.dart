@@ -1,5 +1,9 @@
+import 'package:ecommerce/screen/list_productentry.dart';
+import 'package:ecommerce/screen/login.dart';
 import 'package:ecommerce/screen/productentry_form.dart';
 import 'package:flutter/material.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
 
 class ItemHomepage {
   final String name;
@@ -18,15 +22,16 @@ class ItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     return Material(
       // Specify the background color of the application theme.
-      color: item.color,
+      color: Theme.of(context).colorScheme.secondary,
       // Round the card border.
       borderRadius: BorderRadius.circular(12),
 
       child: InkWell(
-        // Action when the card is pressed.
-        onTap: () {
+// Touch-responsive area
+        onTap: () async {
           // Show SnackBar when clicked
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
@@ -34,12 +39,40 @@ class ItemCard extends StatelessWidget {
                 content: Text("You pressed the ${item.name} button!")));
 
           // Navigate to the appropriate route (depending on the button type)
-          if (item.name == "Add Mood") {
+          if (item.name == "Add Product") {
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                   builder: (context) => ProductEntryFormPage(),
                 ));
+          } else if (item.name == "View Product") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ProductEntryPage()),
+            );
+          } else if (item.name == "Logout") {
+            final response = await request.logout(
+                // TODO: Change the URL to your Django app's URL. Don't forget to add the trailing slash (/) if needed.
+                "http://127.0.0.1:8000/auth/logout/");
+            String message = response["message"];
+            if (context.mounted) {
+              if (response['status']) {
+                String uname = response["username"];
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("$message Goodbye, $uname."),
+                ));
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(message),
+                  ),
+                );
+              }
+            }
           }
         },
         // Container to store the Icon and Text
@@ -52,19 +85,14 @@ class ItemCard extends StatelessWidget {
               children: [
                 Icon(
                   item.icon,
-                  color:
-                      item.name == "Add Product" ? Colors.black : Colors.white,
+                  color: Colors.white,
                   size: 30.0,
                 ),
                 const Padding(padding: EdgeInsets.all(3)),
                 Text(
                   item.name,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: item.name == "Add Product"
-                        ? Colors.black
-                        : Colors.white,
-                  ),
+                  style: const TextStyle(color: Colors.white),
                 ),
               ],
             ),

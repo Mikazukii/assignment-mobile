@@ -1,3 +1,4 @@
+import 'package:ecommerce/screen/list_productentry.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce/screen/menu.dart';
 import 'package:ecommerce/screen/productentry_form.dart';
@@ -60,6 +61,18 @@ class LeftDrawer extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) => ProductEntryFormPage(),
                   ));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.add_reaction_rounded),
+            title: const Text('Product List'),
+            onTap: () {
+              // Route to the product page
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ProductEntryPage()),
+              );
             },
           ),
         ],
