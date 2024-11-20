@@ -65,3 +65,24 @@ We can do it by using the ThemeData class and defining it in your MaterialApp. I
 
 How do you manage navigation in a multi-page Flutter application
 I do it with the widget Navigator : navigation is a superposition of widget or sometimes we delete the previous one.
+
+## Assignment 3
+
+**1. Why create a model for JSON data?**  
+A model structures JSON data into Dart objects, ensures consistency and simplifies manipulation; without it, managing complex data can lead to bugs or inefficiencies.
+
+**2. Function of the `http` library**  
+The `http` library handles HTTP requests like GET and POST, enabling the app to fetch and send data to a server.
+
+**3. Function of `CookieRequest`**  
+`CookieRequest` manages cookies for maintaining sessions, ensuring authenticated requests; sharing it across components ensures consistency of session data.
+
+**4. Mechanism of data transmission**  
+Input data is sent via an HTTP request, processed by the server, and returned as JSON. The app decodes this data, maps it to models, and updates the UI.
+
+**5. Authentication mechanism**  
+Flutter sends login or registration data to Django, which verifies credentials and creates a session. The app then receives a token or cookies for future authenticated requests, enabling navigation to secure menus. Logout clears session data on both ends.
+
+**6. Explain how you implement the checklist above step by step! (not just following the tutorial).**
+Fisrtly I connected the django app with the flutter one in the setting.py of the django project
+Then I created the model for the form submission, and I add a widge to see the data we can add from the app and the django website
